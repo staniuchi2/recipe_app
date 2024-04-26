@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_recipe
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${TEST_DB_NAME}
+      MYSQL_USER:  ${TEST_DB_USER}
+      MYSQL_PASSWORD: ${TEST_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${TEST_DB_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:
