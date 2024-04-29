@@ -8,6 +8,10 @@
   </head>
   <body>
 	  <h1> home page</h1>
-    <h2 id="1"> <a href="{{ url_for('recipes', recipe_id = '1') }}">recipe 1</a></h2>
+    {% for recipe in recipes %}
+      <a href="{{ url_for('recipes', recipe_id = recipe[0]) }}">
+        <button> {{ recipe[1] }}</button>
+      </a>
+    {% endfor %}
   </body>
 </html>
