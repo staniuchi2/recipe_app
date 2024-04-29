@@ -35,23 +35,31 @@ def core_basic_lookup(conn, query, values=False, show_query=False):
         return None
 
 
-def core_basic_write_dict(conn, schema_name, table_name, data_dict):
+def core_basic_write_dict(conn, schema_name, table_name, data_dict, return_id=False):
     # Prepare column names and placeholders for the insert statement
     columns = ', '.join(data_dict.keys())
     placeholders = ', '.join(['%s'] * len(data_dict))  # Using %s as placeholder for MySQL
 
     # Prepare the INSERT statement
     query = f"INSERT INTO `{schema_name}`.`{table_name}` ({columns}) VALUES ({placeholders});"
+    id_query = "SELECT LAST_INSERT_ID();"  # Query to fetch the last inserted ID
 
     # Execute the query with data values
     try:
         with conn.cursor() as cursor:
             cursor.execute(query, list(data_dict.values()))
             conn.commit()  # Ensure to commit since autocommit might be False
+
+            if return_id:
+                cursor.execute(id_query)
+                last_id = cursor.fetchone()[0]  # Fetch the last ID inserted
+                return last_id
+
             print("Data inserted successfully.")
     except Error as e:
         print(f"An error occurred: {e}")
         conn.rollback()  # Rollback in case of error
+        return None  # Return None in case of an error
 
 
 def core_create_schema(conn, schema_name):
