@@ -1,7 +1,4 @@
 from faker import Faker
-import pytz
-import random
-
 from database_system.core import core_basic_write_dict
 from database_system.structure import get_users_table
 
@@ -48,3 +45,4 @@ class DummyUser:
         table_name = user_structure["table_name"]
         current_user_id = core_basic_write_dict(conn, schema_name, table_name, current_user_dict, return_id=True)
         self.user_id = current_user_id
+        return self.user_id
