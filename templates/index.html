@@ -8,10 +8,14 @@
   </head>
   <body>
 	  <h1> home page</h1>
-    {% for recipe in recipes %}
-      <a href="{{ url_for('recipes', recipe_id = recipe[0]) }}">
-        <button> {{ recipe[1] }}</button>
-      </a>
-    {% endfor %}
+      {% if recipes %}
+        {% for recipe in recipes %}
+          <a href="{{ url_for('recipes', recipe_id = recipe[0]) }}">
+          <button> {{ recipe[1] }}</button>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p>No recipes!</p>
+      {% endif %}
   </body>
 </html>

@@ -1,27 +1,34 @@
 from flask import Flask, render_template, request
-from database_system.core import core_get_connection
-from mysql.connector import connect, Error
+from config import Config
+from database_system.core import core_get_connection, core_basic_lookup
+from database_system.structure import get_recipes_table
 
 app = Flask(__name__)
 
-conn = core_get_connection()
-cursor = conn.cursor()
 
-def refresh_recipe_list():
-    query = """SELECT recipe_id, recipe_name
-            FROM test_db_name.recipes"""
-    cursor.execute(query)
-    result = cursor.fetchall()
+def get_all_recipes(conn):
+    config = Config()
+    recipe_structure = get_recipes_table()
+    query = (f"SELECT "
+             f"recipe_id, recipe_name "
+             f"FROM "
+             f"{config.db_name}.{recipe_structure['table_name']};")
+    result = core_basic_lookup(conn, query)
     return result
 
 
-@app.route('/', methods = ['GET'])
+@app.route('/', methods=['GET'])
 def index():
-    recipe_list = refresh_recipe_list()
-    return render_template('index.html', recipes = recipe_list)
+    conn = core_get_connection()
+    recipe_list = get_all_recipes(conn)
+    conn.close()
+    return render_template('index.html', recipes=recipe_list)
 
 
-@app.route("/recipes/<recipe_id>", methods = ['GET','POST'])
+@app.route("/recipes/<recipe_id>", methods=['GET', 'POST'])
 def recipes(recipe_id):
+    return render_template("recipes.html", recipe=recipe_id)
 
-    return render_template("recipes.html", recipe = recipe_id)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
