@@ -52,6 +52,7 @@ def get_recipes_table():
         "primary_key": "recipe_id",
         "columns": {
             user_structure["primary_key"]: "INTEGER",
+            "recipe_name": "TEXT",
             "description": "TEXT",
             "steps": "TEXT",
             "portions": "INTEGER"

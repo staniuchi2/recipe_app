@@ -120,34 +120,32 @@ def core_add_foreign_keys_to_table(conn, schema_name, table_name, foreign_keys):
             reference_table = foreign_key['reference_table']
             reference_column = foreign_key['reference_column']
             is_nullable = foreign_key['is_nullable']
+            foreign_key_name = f"fk_{table_name}_{foreign_key_column}_{reference_table}"
 
-            # Fetch column data type dynamically
+            # Check if the foreign key constraint already exists
             cursor.execute(f"""
-                SELECT DATA_TYPE 
-                FROM INFORMATION_SCHEMA.COLUMNS 
-                WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s;
-            """, (schema_name, table_name, foreign_key_column))
-            result = cursor.fetchone()
-            if result:
-                data_type = result[0]
-
+                SELECT CONSTRAINT_NAME
+                FROM information_schema.REFERENTIAL_CONSTRAINTS
+                WHERE CONSTRAINT_SCHEMA = %s AND TABLE_NAME = %s AND CONSTRAINT_NAME = %s;
+            """, (schema_name, table_name, foreign_key_name))
+            if cursor.fetchone() is None:
                 # Modify column nullability based on 'is_nullable' flag
                 if not is_nullable:
-                    alter_column_query = f"ALTER TABLE `{schema_name}`.`{table_name}` MODIFY `{foreign_key_column}` {data_type} NOT NULL;"
+                    alter_column_query = f"ALTER TABLE `{schema_name}`.`{table_name}` MODIFY `{foreign_key_column}` INT NOT NULL;"
                     cursor.execute(alter_column_query)
 
                 # Add the foreign key constraint
                 add_foreign_key_query = f"""
                 ALTER TABLE `{schema_name}`.`{table_name}`
-                ADD CONSTRAINT `fk_{table_name}_{foreign_key_column}_{reference_table}` FOREIGN KEY (`{foreign_key_column}`)
+                ADD CONSTRAINT `{foreign_key_name}` FOREIGN KEY (`{foreign_key_column}`)
                 REFERENCES `{reference_schema}`.`{reference_table}` (`{reference_column}`);
                 """
                 cursor.execute(add_foreign_key_query)
-                print(f"Foreign key added to '{table_name}' referencing '{reference_table}'. Nullable: {is_nullable}")
+                print(f"Foreign key {foreign_key_name} added to '{table_name}' referencing '{reference_table}'. Nullable: {is_nullable}")
+                conn.commit()  # Commit changes
             else:
-                print(f"Data type for '{foreign_key_column}' in '{table_name}' could not be found.")
+                print(f"Foreign key constraint '{foreign_key_name}' already exists.")
 
-        conn.commit()
 
 
 
