@@ -10,8 +10,8 @@
 	  <h1> home page</h1>
       {% if recipes %}
         {% for recipe in recipes %}
-          <a href="{{ url_for('recipes', recipe_id = recipe[0]) }}">
-          <button> {{ recipe[1] }}</button>
+          <a href="{{ url_for('recipes', recipe_id = recipe['recipe_id']) }}">
+          <button> {{ recipe["recipe_name"] }}</button>
           </a>
         {% endfor %}
       {% else %}
