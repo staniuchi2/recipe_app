@@ -7,18 +7,17 @@ import Button from '@mui/material/Button';
 
 const Base = ({ children }) => {
     return (
-        <div style={{ backgroundColor: '#0a141e', minHeight: '100vh' }}>
-            <AppBar style={{ backgroundColor: '#0a141e' }} position="static">
+        <div style={{ minHeight: '100vh' }}>
+            <AppBar position="static" style={{ backgroundColor: '#0a141e' }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                        <img src="/PrepPalLogo.png" alt="Logo" style={{ marginRight: 10, height: '50px' }} />
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                             Prep Pal
                         </Link>
                     </Typography>
-
-                    <Button color="inherit" component={Link} to="/">Home</Button>
-                    <Button color="inherit" component={Link} to="/about">About</Button>
-                    <Button color="inherit" component={Link} to="/contact">Contact</Button>
+                    <Button style={{ marginRight: 20 }} variant="text" color="inherit" component={Link} to="/recipe/new">New Recipe</Button>
+                    <Button style={{ marginRight: 20 }} variant="outlined" color="inherit" component={Link} to="/user">Account</Button>
                 </Toolbar>
             </AppBar>
             <main>{children}</main>
