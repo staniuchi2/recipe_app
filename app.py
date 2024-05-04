@@ -1,33 +1,26 @@
-from flask import Flask, render_template, request
-from config import Config
-from database_system.core import core_get_connection, core_basic_lookup
-from database_system.structure import get_recipes_table
+from flask import Flask, jsonify
+from flask_cors import CORS
+from app_helpers import get_all_recipes, get_recipe_by_id
+from database_system.core import core_get_connection
 
 app = Flask(__name__)
+CORS(app)
 
 
-def get_all_recipes(conn):
-    config = Config()
-    recipe_structure = get_recipes_table()
-    query = (f"SELECT "
-             f"recipe_id, recipe_name "
-             f"FROM "
-             f"{config.db_name}.{recipe_structure['table_name']};")
-    result = core_basic_lookup(conn, query)
-    return result
-
-
-@app.route('/', methods=['GET'])
-def index():
+@app.route('/api/recipes', methods=['GET'])
+def get_recipes():
     conn = core_get_connection()
-    recipe_list = get_all_recipes(conn)
+    all_recipes = get_all_recipes(conn)
     conn.close()
-    return render_template('index.html', recipes=recipe_list)
+    return jsonify(all_recipes)
 
 
-@app.route("/recipes/<recipe_id>", methods=['GET', 'POST'])
+@app.route("/api/recipes/<recipe_id>", methods=['GET', 'POST'])
 def recipes(recipe_id):
-    return render_template("recipes.html", recipe=recipe_id)
+    conn = core_get_connection()
+    current_recipe = get_recipe_by_id(conn, recipe_id)
+    conn.close()
+    return jsonify(current_recipe)
 
 
 if __name__ == '__main__':
