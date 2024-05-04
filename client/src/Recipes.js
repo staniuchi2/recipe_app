@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 function Recipes() {
     const [recipes, setRecipes] = useState([]);
@@ -17,7 +18,7 @@ function Recipes() {
             {recipes.length > 0 ? (
                 recipes.map(recipe => (
                     <Link key={recipe.recipe_id} to={`/recipes/${recipe.recipe_id}`}>
-                        <button>{recipe.recipe_name}</button>
+                        <Button variant="contained">{recipe.recipe_name}</Button>
                     </Link>
                 ))
             ) : (
