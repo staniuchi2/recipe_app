@@ -11,15 +11,18 @@ function Recipes() {
             .then(data => setRecipes(data))
             .catch(error => console.error('Error fetching recipes:', error));
     }, []);
-
+    const linkStyle = {
+        padding: '10px',
+    };
     return (
         <div>
-            <h1>Home Page</h1>
             {recipes.length > 0 ? (
                 recipes.map(recipe => (
-                    <Link key={recipe.recipe_id} to={`/recipes/${recipe.recipe_id}`}>
-                        <Button variant="contained">{recipe.recipe_name}</Button>
-                    </Link>
+                    <div style={linkStyle}>
+                        <Link key={recipe.recipe_id} to={`/recipes/${recipe.recipe_id}`}>
+                            <Button variant="contained">{recipe.recipe_name}</Button>
+                        </Link>
+                    </div>
                 ))
             ) : (
                 <p>No recipes!</p>
