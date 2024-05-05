@@ -53,9 +53,10 @@ def get_recipes_table():
         "columns": {
             user_structure["primary_key"]: "INTEGER",
             "recipe_name": "TEXT",
-            "description": "TEXT",
-            "steps": "TEXT",
-            "portions": "INTEGER"
+            "recipe_description": "TEXT",
+            "recipe_steps": "TEXT",
+            "recipe_portions": "INTEGER",
+            "recipe_image": "LONGBLOB"
         },
         "foreign_keys": [
             {
@@ -113,7 +114,7 @@ def get_recipe_ratings():
         "columns": {
             recipes_structure["primary_key"]: "INTEGER",
             user_structure["primary_key"]: "INTEGER",
-            "score": "INTEGER"
+            "rating_score": "INTEGER"
         },
         "foreign_keys": [
             {

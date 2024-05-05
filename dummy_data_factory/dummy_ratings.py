@@ -20,7 +20,7 @@ class DummyRating:
         return {
             "user_id": self.user_id,
             "recipe_id": self.recipe_id,
-            "score": self.score
+            "rating_score": self.score
         }
 
     def write_rating_entry(self, conn):

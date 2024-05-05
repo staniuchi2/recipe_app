@@ -33,7 +33,7 @@ const Base = ({ children }) => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
                         <img src="/PrepPalLogo.png" alt="Logo" style={{ marginRight: 10, height: '50px' }} />
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            Prep Pal
+                            PREP PAL
                         </Link>
                     </Typography>
                     <Button style={{ marginRight: 20 }} variant="text" color="inherit" component={Link} to="/recipe/new">New Recipe</Button>

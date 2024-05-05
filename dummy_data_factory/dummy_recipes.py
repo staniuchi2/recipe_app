@@ -13,21 +13,26 @@ class DummyRecipe:
         self.description = None
         self.steps = None
         self.portions = None
+        self.image = None
 
     def populate_dummy_recipe(self, user_id):
+        image_path = f"./dummy_data_factory/food.jpg"
         self.user_id = user_id
         self.recipe_name = self.fake.sentence(nb_words=5)
         self.description = self.fake.text(max_nb_chars=200)
         self.steps = "\n".join(self.fake.sentences(nb=5))
         self.portions = random.randint(1, 12)
+        with open(image_path, 'rb') as file:
+            self.image = file.read()
 
     def get_recipe_entry_dict(self):
         return {
             "user_id": self.user_id,
             "recipe_name": self.recipe_name,
-            "description": self.description,
-            "steps": self.steps,
-            "portions": self.portions
+            "recipe_description": self.description,
+            "recipe_steps": self.steps,
+            "recipe_portions": self.portions,
+            "recipe_image": self.image
         }
 
     def write_recipe_entry(self, conn):
