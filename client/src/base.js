@@ -64,8 +64,10 @@ const Base = ({ children }) => {
                                 },
                             }}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem component={Link} to="/user/profile" onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem component={Link} to="/user/sign-in" onClick={handleClose}>Sign In</MenuItem>
+                            <MenuItem component={Link} to="/user/sign-up" onClick={handleClose}>Sign Up</MenuItem>
+                            <MenuItem component={Link} to="/user/sign-out" onClick={handleClose}>Sign Out</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>
