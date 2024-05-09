@@ -36,6 +36,8 @@ class Config:
         self.__db_port = os.getenv(f"{db_key_prefix}_DB_PORT")
         self.__db_password = os.getenv(f"{db_key_prefix}_DB_PASSWORD")
         self.__db_root_password = os.getenv(f"{db_key_prefix}_DB_ROOT_PASSWORD")
+        self.__jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+        self.__jwt_expiry_delta = os.getenv("JWT_EXPIRY_DELTA")
 
     @property
     def global_test_flag(self):
@@ -68,3 +70,11 @@ class Config:
     @property
     def db_root_password(self):
         return self.__db_root_password
+
+    @property
+    def jwt_secret_key(self):
+        return self.__jwt_secret_key
+
+    @property
+    def jwt_expiry_delta(self):
+        return self.__jwt_expiry_delta
