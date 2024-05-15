@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
+
 function Recipes() {
     const [recipes, setRecipes] = useState([]);
 
@@ -28,6 +29,7 @@ function Recipes() {
         color: 'white',
         textShadow: '2px 2px 4px rgba(0,0,0,1)',
         padding: '20px'
+        
     };
 
     const buttonStyle = {
