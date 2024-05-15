@@ -21,7 +21,9 @@ def core_basic_lookup(conn, query, values=False, show_query=False):
     try:
         with conn.cursor(dictionary=True) as cursor:  # Use dictionary=True to get results as dictionaries
             if values:
+                print(query)
                 cursor.execute(query, (values,))  # Ensure values are passed as a tuple
+       
             else:
                 cursor.execute(query)
             result = cursor.fetchall()  # Fetch all results

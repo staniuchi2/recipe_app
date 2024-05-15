@@ -13,13 +13,17 @@ function RecipeDetail() {
       .then(data => setRecipe(data))
       .catch(error => console.error('Error loading recipe:', error));
   }, [recipeId]); // This effect runs when recipeId changes
-
+  
 
 
   if (!recipe) {
     return <div>Loading...</div>;
   }
 
+  var recipe_info = recipe['recipe']
+  var ingredients_info = recipe['ingredients']
+
+  
   const cardStyle = {
     position: 'fixed',
     top: '10%',
@@ -37,11 +41,29 @@ function RecipeDetail() {
     width: '80%'
   };
 
+  const getIngredientsList = ingredients_info => {
+    let list = [];
+    for (let i=0 ; i < ingredients_info.length; i++ ){
+      const item = ingredients_info[i];
+      list.push(<li key={item.ingredient_id}>{item.ingredient_name}  {item.amount}  {item.unit}</li>)
+    }
+    return list
+  }
+
+  const data = recipe_info.recipe_image
+
   return (
     <Card style={cardStyle}>
+
       <div>
-        <h1>{recipe.recipe_id}</h1>
-        <p>{recipe.recipe_name}</p>
+        <img src={'data:image/jpeg;base64,${data}'} />
+        <h1>{recipe_info.recipe_name}</h1>
+        <p>{recipe_info.recipe_description}</p>
+        <h2>Ingredients</h2>
+        <ul>{getIngredientsList(ingredients_info)}</ul>
+        <h2>Method</h2>
+        <p>{recipe_info.recipe_steps}</p>
+        
         {/* Render other recipe details as needed */}
       </div>
     </Card>
