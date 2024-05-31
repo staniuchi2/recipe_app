@@ -36,7 +36,7 @@ const Base = ({ children }) => {
                             PREP PAL
                         </Link>
                     </Typography>
-                    <Button style={{ marginRight: 20 }} variant="text" color="inherit" component={Link} to="/recipe/new">New Recipe</Button>
+                    <Button style={{ marginRight: 20 }} variant="text" color="inherit" component={Link} to="/add_recipes">New Recipe</Button>
                     <div>
                         <Button
                             ref={buttonRef}

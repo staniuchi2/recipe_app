@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from app_helpers import get_all_recipes, get_recipe_by_id, get_recipe_info_by_id
 from database_system.core import core_get_connection
@@ -24,6 +24,13 @@ def recipes(recipe_id):
     print(ingredient_list)
     conn.close()
     return jsonify(recipe_info)
+
+
+@app.route('/api/add_recipes', methods=['POST'])
+def new_recipes():
+    return_data = request.get_json()
+    print(return_data)
+    return jsonify("hello")
 
 
 if __name__ == '__main__':
