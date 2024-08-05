@@ -1,6 +1,6 @@
 import base64
 from config import Config
-from database_system.core import core_basic_lookup
+from database_system.core import core_basic_lookup, core_basic_write_dict
 from database_system.structure import get_recipes_table, get_middle_ingredients_recipes_table, get_ingredients_table
 
 
@@ -52,3 +52,5 @@ def get_recipe_info_by_id(conn, recipe_id):
              f"WHERE {config.db_name}.{mid_ingredients_structure['table_name']}.recipe_id = %s;")
     result  = core_basic_lookup(conn, query, values=recipe_id)
     return result
+
+
