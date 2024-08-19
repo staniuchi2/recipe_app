@@ -1,26 +1,42 @@
 
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
 //import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 import Card from '@mui/material/Card';
 
-import { CardContent, FormGroup, Grid, TextField, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+import { CardContent, Grid, TextField, Typography, IconButton} from '@mui/material';
+
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 
 function AddRecipes() {
-
-    const [sentID, setID] = useState("");
-    const [sentName, setName] = useState("");
-    const [sentDesc, setDesc] = useState("");
-    const [sentSteps, setSteps] = useState("");
-    const [sentPortions, setPortions] = useState("");
-    const [sentImage, setImage] = useState("")
-
-
+    const [inputFields, setInputFields] = useState([
+        {ingredientName: '', quantity: '', unit: ''},
+    ]);
 
     const handeUpload = () =>{
         console.log("changed")
+    }
+
+    const handleChangeInput = (index, event) => {
+        const values = [...inputFields];
+        values[index][event.target.name] = event.target.value;
+        setInputFields(values);
+        console.log(inputFields);
+    }
+
+    const handleAddButton = () => {
+        setInputFields([...inputFields, {ingredientName: '', quantity: '', unit: ''}]);
+    }
+
+    const handleRemoveButton = (index) => {
+        const values = [...inputFields];
+        values.splice(index, 1);
+        setInputFields(values);
     }
 
     const handleSubmit = async(e) => {
@@ -69,6 +85,37 @@ function AddRecipes() {
                             </Grid>
                             <Grid xs={12} item>
                                 <TextField type="Number" label="Recipe Portions" name="recipePortions" placeholder="Enter Recipe Portions" variant="outlined" fullWidth required/>
+                            </Grid>
+                            <Grid xs={12} item>
+                                { inputFields.map((inputField, index) => (
+                                    <div key={index}>
+                                        <TextField
+                                            name="ingredientName"
+                                            label="Ingredient Name"
+                                            value={inputField.ingredientName}
+                                            onChange={event => handleChangeInput(index, event)}
+                                        />
+                                        <TextField
+                                            type="Number"
+                                            name="quantity"
+                                            label="Quantity"
+                                            value={inputField.quantity}
+                                            onChange={event => handleChangeInput(index, event)}
+                                        />
+                                        <TextField
+                                            name="unit"
+                                            label="Unit"
+                                            value={inputField.unit}
+                                            onChange={event => handleChangeInput(index, event)}
+                                        />
+                                        <IconButton onClick={() => handleAddButton()}>
+                                            <AddIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => handleRemoveButton(index)}>
+                                            <RemoveIcon/>
+                                        </IconButton>
+                                    </div>
+                                ))}
                             </Grid>
                             <Grid xs={12} item>
                                 <Button variant="contained" component="label"> Upload Recipe Image <input accept="image/*" type='file' onChange={handeUpload} hidden/></Button>
