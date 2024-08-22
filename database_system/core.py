@@ -56,12 +56,13 @@ def core_basic_write_dict(conn, schema_name, table_name, data_dict, return_id=Fa
                 cursor.execute(id_query)
                 last_id = cursor.fetchone()[0]  # Fetch the last ID inserted
                 return last_id
-
+           
             print("Data inserted successfully.")
     except Error as e:
         print(f"An error occurred: {e}")
         conn.rollback()  # Rollback in case of error
         return None  # Return None in case of an error
+
 
 
 def core_create_schema(conn, schema_name):

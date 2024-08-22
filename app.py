@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from app_helpers import get_all_recipes, get_recipe_by_id, get_recipe_info_by_id
+from app_helpers import *
 from database_system.core import core_get_connection, core_basic_write_dict
 from database_system.structure import get_recipes_table, get_schema
 from config import Config
@@ -31,12 +31,18 @@ def recipes(recipe_id):
 @app.route('/api/add_recipes', methods=['POST'])
 def new_recipes():
     return_data = request.get_json()
-    print("hello")
-    print(return_data)
+    recipe_data = return_data['recipe_info']
+    ingredients_data = return_data['ingredient_list']
+    ingredient_name_dict = {'ingredient_name':ingredients_data[0]['ingredientName']}
+    print(recipe_data)
+    print(ingredient_name_dict)
     conn = core_get_connection()
     recipe_structure = get_recipes_table()
-    recipe_id = core_basic_write_dict(conn, get_schema(), recipe_structure["table_name"], return_data, return_id=True )
-    print(recipe_id)
+    core_basic_write_dict(conn, get_schema(), recipe_structure["table_name"], recipe_data)
+ 
+ 
+    insert_ingredient_list(conn, get_schema(),ingredient_name_dict)
+    conn.close()
     return jsonify(return_data)
 
 

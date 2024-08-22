@@ -53,11 +53,14 @@ function AddRecipes() {
             },
           
             body: JSON.stringify({
-                user_id : formData.get('userID'),
-                recipe_name: formData.get('recipeName'),
-                recipe_description: formData.get('recipeDescription'),
-                recipe_steps: formData.get('recipeSteps'),
-                recipe_portions: formData.get('recipePortions')
+                recipe_info:{
+                    user_id : formData.get('userID'),
+                    recipe_name: formData.get('recipeName'),
+                    recipe_description: formData.get('recipeDescription'),
+                    recipe_steps: formData.get('recipeSteps'),
+                    recipe_portions: formData.get('recipePortions'),
+                    },
+                ingredient_list: inputFields
             })
         })
         const resultInJson = await result.json();
